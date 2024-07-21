@@ -241,9 +241,38 @@ if not ModelTower then return end
         end
     end
 end
-local EndScreen : Frame = (game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("GameGui") or workspace ) :FindFirstChild("EndScreen")
 
+
+function GetQuest()
+    local result = nil
+    pcall(function()
+        local PathQuest = game:GetService("Players").LocalPlayer["Quests"] or nil
+        if PathQuest then
+            for i, v in next, PathQuest:GetChildren() do 
+                if not v:FindFirstChild("Completed") or (v:FindFirstChild("Progress").Value < v:FindFirstChild("Goal").Value) then
+                        result = v.Name
+                    break
+                end
+            end
+        end
+
+        if result then
+            for index, value in next, Levels do
+                if string.match(value:lower(), result:lower()) and string:find(value:lower(), "Easy") then
+                    result = value
+                    warn("i got quest : ", result)
+                    break
+                end
+            end
+        end
+    end)
+    return result
+end
+
+local EndScreen : Frame = (game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("GameGui") or workspace ) :FindFirstChild("EndScreen")
 local NumberOfPlayer = #Players:GetPlayers() or 0
+
+task.wait(5)
 
 ---: Auto Farm Config
 Groups.ConfigFarm:label("Auto Farm : Fully")
@@ -262,7 +291,12 @@ Groups.AutoFarm:Toggle("Auto Farm", getfenv().Config.AutoFarm, function(bool : b
 					pcall(function()
 						if game.PlaceId == 14809035044 then
 							---: lobby Loader
-							User.Character.HumanoidRootPart.CFrame = LevelsCFrame[MapSelection]
+                            local CurrentQuest = GetQuest()
+                            if CurrentQuest and getfenv().Config.AutoQuest and LevelsCFrame[CurrentQuest] then
+                                User.Character.HumanoidRootPart.CFrame = LevelsCFrame[CurrentQuest]
+                                else
+                                User.Character.HumanoidRootPart.CFrame = LevelsCFrame[MapSelection]
+                            end
 						else
 							---: Game PLay Auto
 							pcall(function()
