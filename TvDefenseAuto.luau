@@ -33,7 +33,7 @@ Players.LocalPlayer.OnTeleport:Connect(function(State)
 	if (not TeleportCheck) and queueteleport then
 		warn("chck teleport")
 		TeleportCheck = true
-		--queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/nontkph/Rexel-Hub/main/Src'))()")
+		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/nontkph/rexel/main/TvDefenseAuto.luau'))()")
 	end
 end)
 
