@@ -44,6 +44,7 @@ getfenv().Config = getfenv().Config or {
 	AutoQuest = false,
 	AutoReplay = false,
     AutoSkip = false,
+    HidedMultiPlayer = false,
 
     SetMasteryEnabled = false,
     SetMastery = "Mythic",
@@ -242,6 +243,8 @@ if not ModelTower then return end
 end
 local EndScreen : Frame = (game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("GameGui") or workspace ) :FindFirstChild("EndScreen")
 
+local NumberOfPlayer = #Players:GetPlayers() or 0
+
 ---: Auto Farm Config
 Groups.ConfigFarm:label("Auto Farm : Fully")
 Groups.AutoFarm:Toggle("Auto Farm", getfenv().Config.AutoFarm, function(bool : boolean)
@@ -280,6 +283,11 @@ Groups.AutoFarm:Toggle("Auto Farm", getfenv().Config.AutoFarm, function(bool : b
                                             ButtonClick( game:GetService("Players").LocalPlayer.PlayerGui.GameGui.SkipWave.Yes )
                                        end)
                                     end
+                                end
+
+                                ---: Hide my Chaarcter 
+                                if getfenv().Config.HidedMultiPlayer and NumberOfPlayer > 1 then
+                                    User.Character.HumanoidRootPart.CFrame = CFrame.new(0, 100000, 0)
                                 end
 
 								for i, v in ipairs(Data.SelectedTowers) do
@@ -342,6 +350,10 @@ end)
 Groups.ConfigFarm:Toggle("Auto Skip", getfenv().Config.AutoSkip, function(bool : boolean)
 	---: Set Value
 	Change("AutoSkip", bool)
+end)
+Groups.ConfigFarm:Toggle("ซ่อนตัวถ้ามีคนเล่นเยอะ", getfenv().Config.HidedMultiPlayer, function(bool : boolean)
+	---: Set Value
+	Change("HidedMultiPlayer", bool)
 end)
 ---: Misc
 function RedeemCode(code)
