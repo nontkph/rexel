@@ -249,7 +249,7 @@ function GetQuest()
         local PathQuest = game:GetService("Players").LocalPlayer["Quests"] or nil
         if PathQuest then
             for i, v in next, PathQuest:GetChildren() do 
-                if not v:FindFirstChild("Completed") or (v:FindFirstChild("Progress").Value < v:FindFirstChild("Goal").Value) then
+                if v:IsA("Folder") and not v:FindFirstChild("Completed") then
                         result = v.Name
                     break
                 end
@@ -258,9 +258,9 @@ function GetQuest()
 
         if result then
             for index, value in next, Levels do
-                if string.match(value:lower(), result:lower()) and string:find(value:lower(), "Easy") then
+            local Spil = string.split(value, " ") or {"haha"}
+                if string.match(result:lower(), Spil[1]:lower()) and string.find(value:lower(), "easy") then
                     result = value
-                    warn("i got quest : ", result)
                     break
                 end
             end
@@ -271,8 +271,6 @@ end
 
 local EndScreen : Frame = (game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("GameGui") or workspace ) :FindFirstChild("EndScreen")
 local NumberOfPlayer = #Players:GetPlayers() or 0
-
-task.wait(5)
 
 ---: Auto Farm Config
 Groups.ConfigFarm:label("Auto Farm : Fully")
@@ -295,6 +293,7 @@ Groups.AutoFarm:Toggle("Auto Farm", getfenv().Config.AutoFarm, function(bool : b
                             if CurrentQuest and getfenv().Config.AutoQuest and LevelsCFrame[CurrentQuest] then
                                 User.Character.HumanoidRootPart.CFrame = LevelsCFrame[CurrentQuest]
                                 else
+                               -- print("i dont have a quest : ", CurrentQuest)
                                 User.Character.HumanoidRootPart.CFrame = LevelsCFrame[MapSelection]
                             end
 						else
