@@ -8,6 +8,8 @@ local User = Players.LocalPlayer
 local Libraries = loadstring(game:HttpGet("https://raw.githubusercontent.com/nontkph/Rexel-Hub/main/Libraries"))()
 local ScreenObject = Libraries.new("Rexel Hum : Premium | TV Defense")
 
+repeat task.wait() until game.Loaded and game:IsLoaded()
+
 ---: Save File
 function ButtonClick(ButtonPath)
     for i,v in pairs ({"MouseButton1Click", "MouseButton1Down", "Activated"}) do
