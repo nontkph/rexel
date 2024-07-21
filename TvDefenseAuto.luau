@@ -9,7 +9,33 @@ local Libraries = loadstring(game:HttpGet("https://raw.githubusercontent.com/non
 local ScreenObject = Libraries.new("Rexel Hum : Premium | TV Defense")
 
 ---: Save File
+function ButtonClick(ButtonPath)
+    for i,v in pairs ({"MouseButton1Click", "MouseButton1Down", "Activated"}) do
+	    for _i,_v in pairs(getconnections(ButtonPath[v])) do
+		    print(_i, _v)
+		    _v.Function()
+	    end
+    end
+end
 
+---: check Excutor Function
+RunService = game:GetService("RunService")
+VirtualUser = game:GetService('VirtualUser')
+TeleportService = cloneref(game:GetService("TeleportService"))
+--
+queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
+httprequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
+PlaceId, JobId = game.PlaceId, game.JobId
+
+---: auto Extutor
+local TeleportCheck = false
+Players.LocalPlayer.OnTeleport:Connect(function(State)
+	if (not TeleportCheck) and queueteleport then
+		warn("chck teleport")
+		TeleportCheck = true
+		--queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/nontkph/Rexel-Hub/main/Src'))()")
+	end
+end)
 
 ---: Load File Reader
 getfenv().Config = getfenv().Config or {
@@ -73,15 +99,15 @@ local LevelsCFrame = {
 	["Crystal Lab : Normal"] = CFrame.new(-197.43779, 5.75621223, 835.269226, 0, 0, 1, 1, 0, 0, 0, 1, 0),
 	["Crystal Lab : Hard"] = CFrame.new(-197.43779, 5.75621223, 857.115967, 0, 0, 1, 1, 0, 0, 0, 1, 0),
 
-	["Backroom : Easy"] = CFrame.new(-333.975311, 5.51421165, 738.295044, 0, 1, 0, 1, 0, 0, 0, 0, -1),
-	["Backroom : Normal"] = CFrame.new(-356.164398, 5.51421165, 738.295044, 0, 1, 0, 1, 0, 0, 0, 0, -1),
-	["Backroom : Hard"] = CFrame.new(-378.379425, 5.51421165, 737.921936, 0, -1, 0, 1, 0, -0, 0, 0, 1),
-	["Backroom : Nightmare"] = CFrame.new(-401.113373, 5.51721191, 738.78479, 0, 0, -1, 1, 0, 0, 0, -1, 0),
+	["Backroom : Easy"] = CFrame.new(-353.466827, 5.51421165, 738.295044, 0, 1, 0, 1, 0, 0, 0, 0, -1),
+	["Backroom : Normal"] = CFrame.new(-375.655914, 5.51421165, 738.295044, 0, 1, 0, 1, 0, 0, 0, 0, -1),
+	["Backroom : Hard"] = CFrame.new(-397.870941, 5.51421165, 737.921936, 0, -1, 0, 1, 0, -0, 0, 0, 1),
+	["Backroom : Nightmare"] = CFrame.new(-420.604889, 5.51721191, 738.78479, 0, 0, -1, 1, 0, 0, 0, -1, 0),
 
-	["Run for Your Lift : Easy"] = CFrame.new(400.300781, 13.3289194, -208.123917, 0, 1, 0, 1, 0, 0, 0, 0, -1),
-	["Run for Your Lift : Normal"] = CFrame.new(378.111694, 13.3289194, -208.123917, 0, 1, 0, 1, 0, 0, 0, 0, -1),
-	["Run for Your Lift : Hard"] = CFrame.new(355.896667, 13.3289194, -208.497025, 0, -1, 0, 1, 0, -0, 0, 0, 1),
-	["Run for Your Lift : Nightmare"] = CFrame.new(333.16272, 13.3319216, -207.634171, 0, 0, -1, 1, 0, 0, 0, -1, 0),
+	["Run for Your Lift : Easy"] = CFrame.new(-251.462936, 5.57568359, 737.492676, 0, 1, 0, 1, 0, 0, 0, 0, -1),
+	["Run for Your Lift : Normal"] = CFrame.new(-273.652039, 5.57568359, 737.492676, 0, 1, 0, 1, 0, 0, 0, 0, -1),
+	["Run for Your Lift : Hard"] = CFrame.new(-295.867065, 5.57568359, 737.119568, 0, -1, 0, 1, 0, -0, 0, 0, 1),
+	["Run for Your Lift : Nightmare"] = CFrame.new(-318.601013, 5.57868576, 737.982422, 0, 0, -1, 1, 0, 0, 0, -1, 0),
 }
 
 local Levels = {
@@ -214,6 +240,7 @@ if not ModelTower then return end
         end
     end
 end
+local EndScreen : Frame = (game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("GameGui") or workspace ) :FindFirstChild("EndScreen")
 
 ---: Auto Farm Config
 Groups.ConfigFarm:label("Auto Farm : Fully")
@@ -237,10 +264,21 @@ Groups.AutoFarm:Toggle("Auto Farm", getfenv().Config.AutoFarm, function(bool : b
 							---: Game PLay Auto
 							pcall(function()
 
+                                EndScreen = EndScreen or game:GetService("Players").LocalPlayer.PlayerGui.GameGui.EndScreen
+                                if EndScreen and EndScreen:IsA("Frame") and EndScreen.Visible then
+                                    if getfenv().Config.AutoReplay then
+                                        ButtonClick(EndScreen.Content.ReplayButton)
+                                        else
+                                        ButtonClick(EndScreen.Content.LeaveButton)
+                                    end
+                                end
+
                                 ---: auto skip
                                 if getfenv().Config.AutoSkip then
                                     if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.SkipWave.Yes.BackgroundColor3 ~= Color3.fromRGB(140, 208, 95) then
-                                        game:GetService("ReplicatedStorage"):WaitForChild("Functions"):WaitForChild("SkipWave"):InvokeServer()
+                                       pcall(function()
+                                            ButtonClick( game:GetService("Players").LocalPlayer.PlayerGui.GameGui.SkipWave.Yes )
+                                       end)
                                     end
                                 end
 
@@ -320,3 +358,4 @@ Groups.Misc:Button("Redeem All Code [ auto update ]", function()
 		RedeemCode(index)
 	end
 end)
+
