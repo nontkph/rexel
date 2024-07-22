@@ -112,6 +112,8 @@ local LevelsCFrame = {
 	["Run for Your Lift : Normal"] = CFrame.new(-273.652039, 5.57568359, 737.492676, 0, 1, 0, 1, 0, 0, 0, 0, -1),
 	["Run for Your Lift : Hard"] = CFrame.new(-295.867065, 5.57568359, 737.119568, 0, -1, 0, 1, 0, -0, 0, 0, 1),
 	["Run for Your Lift : Nightmare"] = CFrame.new(-318.601013, 5.57868576, 737.982422, 0, 0, -1, 1, 0, 0, 0, -1, 0),
+
+    ["Endless"] = CFrame.new(-197.43779, 5.75621223, 813.42688, 0, 0, 1, 1, 0, 0, 0, 1, 0),
 }
 
 local Levels = {
@@ -156,6 +158,7 @@ local Levels = {
 	"Run for Your Lift : Normal",
 	"Run for Your Lift : Hard",
 	"Run for Your Lift : Nightmare",
+    "Endless",
 }
 
 local Pages = {
