@@ -30,11 +30,12 @@ httprequest = (syn and syn.request) or (http and http.request) or http_request o
 PlaceId, JobId = game.PlaceId, game.JobId
 
 ---: auto Extutor
-local TeleportCheck = false
+local TeleportCheck = getfenv().TeleportCheck or false
 Players.LocalPlayer.OnTeleport:Connect(function(State)
 	if (not TeleportCheck) and queueteleport then
 		warn("chck teleport")
-		TeleportCheck = true
+		getfenv().TeleportCheck = true
+        TeleportCheck = true
 		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/nontkph/rexel/main/TvDefenseAuto.luau'))()")
 	end
 end)
