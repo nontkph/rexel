@@ -299,9 +299,18 @@ Groups.AutoFarm:Toggle("Auto Farm", getfenv().Config.AutoFarm, function(bool : b
                                 User.Character.HumanoidRootPart.CFrame = LevelsCFrame[MapSelection]
                             end
 						else
+                            task.defer(function()
+                                pcall(function()
+                                       ---: Hide my Chaarcter 
+                                if getfenv().Config.HidedMultiPlayer and  User.Character and  User.Character:FindFirstChild("HumanoidRootPart") and NumberOfPlayer > 1 then
+                                    User.Character.HumanoidRootPart.CFrame = CFrame.new(0, 150, 0)
+                                end
+                                
+                                end)
+                            end)
+
 							---: Game PLay Auto
 							pcall(function()
-
                                 EndScreen = EndScreen or game:GetService("Players").LocalPlayer.PlayerGui.GameGui.EndScreen
                                 if EndScreen and EndScreen:IsA("Frame") and EndScreen.Visible then
                                     if getfenv().Config.AutoReplay then
@@ -310,7 +319,6 @@ Groups.AutoFarm:Toggle("Auto Farm", getfenv().Config.AutoFarm, function(bool : b
                                         ButtonClick(EndScreen.Content.LeaveButton)
                                     end
                                 end
-
                                 ---: auto skip
                                 if getfenv().Config.AutoSkip then
                                     if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.SkipWave.Yes.BackgroundColor3 ~= Color3.fromRGB(140, 208, 95) then
@@ -318,11 +326,6 @@ Groups.AutoFarm:Toggle("Auto Farm", getfenv().Config.AutoFarm, function(bool : b
                                             ButtonClick( game:GetService("Players").LocalPlayer.PlayerGui.GameGui.SkipWave.Yes )
                                        end)
                                     end
-                                end
-
-                                ---: Hide my Chaarcter 
-                                if getfenv().Config.HidedMultiPlayer and NumberOfPlayer > 1 then
-                                    User.Character.HumanoidRootPart.CFrame = CFrame.new(0, 100000, 0)
                                 end
 
 								for i, v in ipairs(Data.SelectedTowers) do
@@ -390,6 +393,7 @@ Groups.ConfigFarm:Toggle("ซ่อนตัวถ้ามีคนเล่น
 	---: Set Value
 	Change("HidedMultiPlayer", bool)
 end)
+
 ---: Misc
 function RedeemCode(code)
 	local args = {
@@ -405,4 +409,3 @@ Groups.Misc:Button("Redeem All Code [ auto update ]", function()
 		RedeemCode(index)
 	end
 end)
-
