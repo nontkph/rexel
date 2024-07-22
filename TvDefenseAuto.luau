@@ -300,15 +300,9 @@ Groups.AutoFarm:Toggle("Auto Farm", getfenv().Config.AutoFarm, function(bool : b
                                 User.Character.HumanoidRootPart.CFrame = LevelsCFrame[MapSelection]
                             end
 						else
-                            task.defer(function()
-                                pcall(function()
-                                       ---: Hide my Chaarcter 
-                                if getfenv().Config.HidedMultiPlayer and  User.Character and  User.Character:FindFirstChild("HumanoidRootPart") and NumberOfPlayer > 1 then
-                                    User.Character.HumanoidRootPart.CFrame = CFrame.new(0, 150, 0)
-                                end
-                                
-                                end)
-                            end)
+                            if getfenv().Config.HidedMultiPlayer and User.Character and  User.Character:FindFirstChild("HumanoidRootPart") and NumberOfPlayer > 1 then
+                                User.Character.HumanoidRootPart.CFrame = CFrame.new(0, 150, 0)
+                            end
 
 							---: Game PLay Auto
 							pcall(function()
@@ -329,7 +323,8 @@ Groups.AutoFarm:Toggle("Auto Farm", getfenv().Config.AutoFarm, function(bool : b
                                     end
                                 end
 
-								for i, v in ipairs(Data.SelectedTowers) do
+								task.defer(function()
+                                    for i, v in ipairs(Data.SelectedTowers) do
 									task.defer(function()
                                     local Formath = string.split(v, " {")
 									local Mastery = nil
@@ -360,6 +355,7 @@ Groups.AutoFarm:Toggle("Auto Farm", getfenv().Config.AutoFarm, function(bool : b
 									end
                                     end)
 								end
+                                end)
                                 pcall(UpgradeAll)
                             end)
 						end
