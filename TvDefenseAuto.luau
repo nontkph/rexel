@@ -200,8 +200,6 @@ local Blacklist = {
 	["SUPPORT"] = true,
 }
 
-local A : BasePart
-
 function GetTarget()
 	local Target, Distance = nil, math.huge
 	for i, v in next, workspace:FindFirstChild("Mob", true):GetChildren() do
@@ -248,6 +246,10 @@ if not ModelTower then return end
     end
 end
 
+local CustomQuest = {
+    ["Pass wave 100 in Endless Mode"] = "Endless",
+    ["Win 5 game"] = "GrassLand : Easy",
+}
 
 function GetQuest()
     local result = nil
@@ -265,7 +267,7 @@ function GetQuest()
         if result then
             for index, value in next, Levels do
             local Spil = string.split(value, " ") or {"haha"}
-                if string.match(result:lower(), Spil[1]:lower()) and string.find(value:lower(), "easy") then
+                if (CustomQuest[result]) or (string.match(result:lower(), Spil[1]:lower()) and string.find(value:lower(), "easy")) then
                     result = value
                     break
                 end
