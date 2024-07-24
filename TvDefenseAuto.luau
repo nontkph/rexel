@@ -246,9 +246,32 @@ if not ModelTower then return end
     end
 end
 
+---: Anti AFK
+local GC = getconnections or get_signal_cons
+if GC then
+	for i,v in pairs(GC(Players.LocalPlayer.Idled)) do
+		if v["Disable"] then
+			v["Disable"](v)
+		elseif v["Disconnect"] then
+			v["Disconnect"](v)
+		end
+	end
+    print("Gc Anti AFK.")
+else
+    print("Virtual Anti AFK.")
+	local VirtualUser = cloneref(game:GetService("VirtualUser"))
+	    Players.LocalPlayer.Idled:Connect(function()
+		VirtualUser:CaptureController()
+		VirtualUser:ClickButton2(Vector2.new())
+	end)
+end
+
+warn("Loaded Fucking Anti AFK.")
+
 local CustomQuest = {
     ["Pass wave 100 in Endless Mode"] = "Endless",
     ["Win 5 game"] = "GrassLand : Easy",
+    ["Win BACKROOM LEVEL RUN"] = "Run for Your Lift : Easy"
 }
 
 function GetQuest()
